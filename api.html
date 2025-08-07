@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Get Appointment</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+    }
+    .container {
+      width: 50%;
+      margin: 50px auto;
+      padding: 20px;
+      background-color: #fff;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    .form-group {
+      margin: 15px 0;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    input, select {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    .submit-btn {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      width: 100%;
+      font-size: 16px;
+    }
+    .submit-btn:hover {
+      background-color: #45a049;
+    }
+    .time-slot {
+      display: flex;
+      flex-wrap: wrap;
+    }
+    .time-slot select {
+      margin-right: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Get Appointment</h1>
+    <form id="appointment-form">
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" required placeholder="Enter your name">
+      </div>
+      <div class="form-group">
+        <label for="contact">Contact</label>
+        <input type="tel" id="contact" name="contact" required placeholder="Enter your contact number">
+      </div>
+      <div class="form-group">
+        <label for="date">Appointment Date</label>
+        <input type="date" id="date" name="date" required>
+      </div>
+      <div class="form-group time-slot">
+        <label for="time">Select Appointment Time</label>
+        <select id="time" name="time" required>
+          <!-- Time slots will be populated by JavaScript -->
+        </select>
+      </div>
+      <button type="submit" class="submit-btn">Book Appointment</button>
+    </form>
+  </div>
+
+  <script>
+    // JavaScript to populate the time slots from 9 AM to 11 PM with 15-minute intervals
+    function populateTimeSlots() {
+      const timeSelect = document.getElementById("time");
+      const startHour = 9; // Start at 9 AM
+      const endHour = 23; // End at 11 PM
+      const timeInterval = 15; // 15-minute intervals
+      const options = [];
+
+      for (let hour = startHour; hour <= endHour; hour++) {
+        for (let minute = 0; minute < 60; minute += timeInterval) {
+          // Format time in HH:MM format
+          const formattedHour = hour < 10 ? '0' + hour : hour;
+          const formattedMinute = minute === 0 ? '00' : minute;
+          const time = `${formattedHour}:${formattedMinute}`;
+          
+          const option = document.createElement("option");
+          option.value = time;
+          option.textContent = time;
+          options.push(option);
+        }
+      }
+
+      // Clear existing options
+      timeSelect.innerHTML = '';
+      
+      // Add options to the select dropdown
+      options.forEach(option => timeSelect.appendChild(option));
+    }
+
+    // Call the function to populate time slots when the page loads
+    document.addEventListener("DOMContentLoaded", populateTimeSlots);
+
+    // Handle form submission
+    document.getElementById("appointment-form").addEventListener("submit", function(event) {
+      event.preventDefault();
+
+      const name = document.getElementById("name").value;
+      const contact = document.getElementById("contact").value;
+      const date = document.getElementById("date").value;
+      const time = document.getElementById("time").value;
+
+      alert(`Appointment Booked!\n\nName: ${name}\nContact: ${contact}\nDate: ${date}\nTime: ${time}`);
+    });
+  </script>
+</body>
+</html>
+
